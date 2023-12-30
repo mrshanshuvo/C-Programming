@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <string.h>
+
+char c[8] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'S'};
+int e[8] = {2, 2, 2, 2, 2, 2, 3, 3};
+int list[8][3] = {{3, 7}, {4, 7}, {5, 7}, {0, 6}, {1, 6}, {2, 6}, {3, 4, 5}, {0, 1, 2}};
+int checked[20];
+int que[20];
+int first = 0;
+int last = 0;
+char topologicalOrder[8]; // Array to store the topological sort order
+int orderIndex = 0;
+
+void enq(int n) {
+    checked[n] = 1;
+    que[last++] = n;
+}
+
+int dq() {
+    int vertex = que[first++];
+    topologicalOrder[orderIndex++] = c[vertex];
+    return vertex;
+}
+
+int notchecked(int n) {
+    if (checked[n] == 1) {
+        return 0;
+    }
+    return 1;
+}
+
+int main() {
+    int i, n;
+    enq(7);
+
+    while (first < last) {
+        n = dq();
+        for (i = 0; i < e[n]; i++) {
+            if (notchecked(list[n][i]) == 1) {
+                enq(list[n][i]);
+            }
+        }
+    }
+
+    printf("Topological Sort Order: ");
+    for (i = 7; i >= 0; i--) {
+        printf("%c ", topologicalOrder[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
