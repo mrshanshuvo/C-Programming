@@ -5,14 +5,19 @@
 
 int lcslen = 0;
 int dp[MAX][MAX];
+
 int lcs(char str1[], char str2[], int len1, int len2, int i, int j)
 {
     int *ret = &dp[i][j];
+
     if (i == len1 || j == len2)
         return (*ret = 0);
+
     if (*ret != -1)
         return *ret;
+
     *ret = 0;
+
     if (str1[i] == str2[j])
         *ret = 1 + lcs(str1, str2, len1, len2, i + 1, j + 1);
     else
@@ -22,6 +27,7 @@ int lcs(char str1[], char str2[], int len1, int len2, int i, int j)
 
     return *ret;
 }
+
 void printAll(char str1[], char str2[], int len1, int len2, char data[], int indx1, int indx2, int currlcs)
 {
     if (currlcs == lcslen)
@@ -30,11 +36,14 @@ void printAll(char str1[], char str2[], int len1, int len2, char data[], int ind
         puts(data);
         return;
     }
+
     if (indx1 == len1 || indx2 == len2)
         return;
+
     for (char ch = 'a'; ch <= 'z'; ch++)
     {
         bool done = false;
+
         for (int i = indx1; i < len1; i++)
         {
             if (ch == str1[i])
@@ -50,20 +59,25 @@ void printAll(char str1[], char str2[], int len1, int len2, char data[], int ind
                     }
                 }
             }
+
             if (done)
                 break;
         }
     }
 }
+
 void prinlAllLCSSorted(char str1[], char str2[])
 {
     int len1 = strlen(str1);
     int len2 = strlen(str2);
+
     memset(dp, -1, sizeof(dp));
     lcslen = lcs(str1, str2, len1, len2, 0, 0);
+
     char data[MAX];
     printAll(str1, str2, len1, len2, data, 0, 0, 0);
 }
+
 int main()
 {
     char str1[] = "abcabcaa";
